@@ -1,0 +1,32 @@
+
+有一个客户查询的需求，大概的查询条件与所需的表字段如下所示：
+
+[source,sql]
+----
+include::scrm-customer-dml.sql[tag=requirements]
+----
+
+Explain
+
+[source,log]
+----
+include::scrm-customer-mysql.log[tag=before]
+----
+
+
+第一次优化： 加索引
+
+[source,sql]
+----
+include::scrm-customer-ddl.sql[tag=index-design-first]
+----
+
+再次 Explain
+
+[source,sql]
+----
+include::scrm-customer-mysql.log[tag=first-refactor]
+----
+
+为什么 t4 还是没走索引，走的全表呢？
+wechat_customer_wxid 由于目前我们的测试库数据量太小，DBA 说 MySQL 不会进行优化，必须等数据量上来之后，才会进行优化。（非不得已不进行优化）
